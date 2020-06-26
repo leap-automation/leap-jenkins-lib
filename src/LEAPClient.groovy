@@ -18,13 +18,13 @@ class LEAPClient {
     }
 
     private def client() {
-        return new HttpRequest().tokenAuthentication(token).acceptJson()
+        return new HttpRequest()
     }
 
     private get(String url) {
         try {
             log "requesting -\nGET ${url}"
-            def res = client().get(url).send().bodyText()
+            def res = client().get(url).tokenAuthentication(token).acceptJson().send().bodyText()
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
@@ -35,7 +35,7 @@ class LEAPClient {
     private post(String url, String data = "") {
         try {
             log "requesting -\nPOST ${url}"
-            def res = client().post(url).contentTypeJson().body(data).send().bodyText()
+            def res = client().post(url).tokenAuthentication(token).acceptJson().contentTypeJson().body(data).send().bodyText()
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
