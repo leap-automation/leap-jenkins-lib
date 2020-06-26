@@ -4,8 +4,6 @@ import groovy.json.JsonSlurperClassic
 import jodd.http.HttpRequest
 
 class LEAPClient {
-    @NonCPS
-    private HttpRequest httpRequest = new HttpRequest()
     private String exec_api, token;
     private log;
     LEAPClient(log,host, token) {
@@ -19,7 +17,7 @@ class LEAPClient {
     private get(String url) {
         try {
             log "requesting:\nGET ${url}"
-            def res = httpRequest.get(url).tokenAuthentication(token)
+            def res = new HttpRequest().get(url).tokenAuthentication(token)
                     .acceptJson().send().bodyText()
             log "response:\n${res}"
             return new JsonSlurperClassic().parseText(res)
@@ -31,7 +29,7 @@ class LEAPClient {
     private post(String url, String data = "") {
         try {
             log "requesting:\nPOST ${url}"
-            def res = httpRequest.post(url).tokenAuthentication(token)
+            def res = new HttpRequest().post(url).tokenAuthentication(token)
                     .acceptJson().contentTypeJson().body(data).send().bodyText()
             log "response:\n${res}"
             return new JsonSlurperClassic().parseText(res)
