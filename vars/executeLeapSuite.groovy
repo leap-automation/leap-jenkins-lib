@@ -16,7 +16,6 @@ def call(suite, project,
     def setPassed = { value ->
         env[passPercentVar] = value
         writeFile file: resultsSourceFile, text: "${passPercentVar}=${value}"
-        sh 'ls'
     }
 
     setPassed 0

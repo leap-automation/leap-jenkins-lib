@@ -4,37 +4,42 @@ import groovy.json.JsonSlurperClassic
 import jodd.http.HttpRequest
 
 class LEAPClient {
-    private String exec_api, token;
-    private log;
-    LEAPClient(log,host, token) {
+    private String exec_api, token
+    private Closure log
+
+    LEAPClient(log, host, token) {
         this.exec_api = host.endsWith('execution') ? host : host + '/execution'
         this.token = token
         this.log = log
     }
-  static def httpClient(){
-      return new HttpRequest()
-  }
+
+    static def httpClient() {
+        return new HttpRequest()
+    }
+
+    private def client() {
+        return new HttpRequest().tokenAuthentication(token).acceptJson()
+    }
+
     private get(String url) {
         try {
             log "requesting -\nGET ${url}"
-            def res = new HttpRequest().get(url).tokenAuthentication(token)
-                    .acceptJson().send().bodyText()
+            def res = client().get(url).send().bodyText()
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
-            return e;
+            return e
         }
     }
 
     private post(String url, String data = "") {
         try {
             log "requesting -\nPOST ${url}"
-            def res = new HttpRequest().post(url).tokenAuthentication(token)
-                    .acceptJson().contentTypeJson().body(data).send().bodyText()
+            def res = client().post(url).contentTypeJson().body(data).send().bodyText()
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
-            return e;
+            return e
         }
     }
 
