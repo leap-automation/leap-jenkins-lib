@@ -6,17 +6,21 @@ import jodd.http.HttpRequest
 class LEAPClient {
     private HttpRequest httpRequest = new HttpRequest()
     private String exec_api, token;
-    LEAPClient(host, token) {
+    private log;
+    LEAPClient(log,host, token) {
         this.exec_api = host.endsWith('execution') ? host : host + '/execution'
         this.token = token
+        this.log = log
     }
   static def httpClient(){
       return new HttpRequest()
   }
     private get(String url) {
         try {
+            log "requesting:\nGET ${url}"
             def res = httpRequest.get(url).tokenAuthentication(token)
                     .acceptJson().send().bodyText()
+            log "response:\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
             return e;
@@ -25,8 +29,10 @@ class LEAPClient {
 
     private post(String url, String data = "") {
         try {
+            log "requesting:\nPOST ${url}"
             def res = httpRequest.post(url).tokenAuthentication(token)
                     .acceptJson().contentTypeJson().body(data).send().bodyText()
+            log "response:\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
             return e;
