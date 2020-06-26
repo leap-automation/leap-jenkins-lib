@@ -8,6 +8,11 @@ def call(suite, project,
         return msg != null ? "\nMSG: ${msg}" : ''
     }
     def log = { String msg -> println "(${project}/${suite}): ${msg}" }
+    def debug = { String msg ->
+        if (env.DEBUG == 'true' || env.debug == 'true') {
+            log msg
+        }
+    }
     def setPassed = { value ->
         env[passPercentVar] = value
         writeFile file: resultsSourceFile, text: "${passPercentVar}=${value}"
@@ -17,7 +22,7 @@ def call(suite, project,
     setPassed 0
     log "starting execution..."
 
-    def executionApi = new LEAPClient(log , host, token)
+    def executionApi = new LEAPClient(debug, host, token)
     def exec = executionApi.runSuite(suite, project)
     def status, completed = false, retry = 5
     if (exec && exec.id) {

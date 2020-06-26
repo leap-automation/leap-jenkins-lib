@@ -16,10 +16,10 @@ class LEAPClient {
   }
     private get(String url) {
         try {
-            log "requesting:\nGET ${url}"
+            log "requesting -\nGET ${url}"
             def res = new HttpRequest().get(url).tokenAuthentication(token)
                     .acceptJson().send().bodyText()
-            log "response:\n${res}"
+            log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
             return e;
@@ -28,10 +28,10 @@ class LEAPClient {
 
     private post(String url, String data = "") {
         try {
-            log "requesting:\nPOST ${url}"
+            log "requesting -\nPOST ${url}"
             def res = new HttpRequest().post(url).tokenAuthentication(token)
                     .acceptJson().contentTypeJson().body(data).send().bodyText()
-            log "response:\n${res}"
+            log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
             return e;
