@@ -5,7 +5,7 @@ import jodd.http.HttpRequest
 
 class LEAPClient {
     private String exec_api, token
-    private Closure log
+    private def log
 
     LEAPClient(log, host, token) {
         this.exec_api = host.endsWith('execution') ? host : host + '/execution'
@@ -16,15 +16,11 @@ class LEAPClient {
     static def httpClient() {
         return new HttpRequest()
     }
-
-    private def client() {
-        return new HttpRequest()
-    }
-
+    @SuppressWarnings("GroovyAssignabilityCheck")
     private get(String url) {
         try {
             log "requesting -\nGET ${url}"
-            def res = client().get(url).tokenAuthentication(token).acceptJson().send().bodyText()
+            def res = httpClient().get(url).tokenAuthentication(token).acceptJson().send().bodyText()
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
@@ -32,10 +28,11 @@ class LEAPClient {
         }
     }
 
+    @SuppressWarnings("GroovyAssignabilityCheck")
     private post(String url, String data = "") {
         try {
             log "requesting -\nPOST ${url}"
-            def res = client().post(url).tokenAuthentication(token).acceptJson().contentTypeJson().body(data).send().bodyText()
+            def res = httpClient().post(url).tokenAuthentication(token).acceptJson().contentTypeJson().body(data).send().bodyText()
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
