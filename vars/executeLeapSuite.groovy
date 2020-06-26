@@ -25,7 +25,7 @@ def call(suite, project,
             status = executionApi.getExecutionStatus(exec.id)
             if (status && status.jobs) {
                 completed = status.finishedPercentage == 100 && status.passPercentage != null
-                log "completion - ${status.finishedPercentage}%"
+                log "completion(${completed}) - ${status.finishedPercentage}%"
             } else {
                 completed = --retry == 0
             }

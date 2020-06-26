@@ -4,6 +4,7 @@ import groovy.json.JsonSlurperClassic
 import jodd.http.HttpRequest
 
 class LEAPClient {
+    @NonCPS
     private HttpRequest httpRequest = new HttpRequest()
     private String exec_api, token;
     private log;
