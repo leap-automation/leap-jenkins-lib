@@ -8,10 +8,10 @@ def call(projectId, modelId,
         def msg = res == null ? null : res.message ?: res
         return msg != null ? "\nMSG: ${msg}" : ''
     }
-    def log = { String msg -> println "RBOT(${projectId}/${modelId}): ${msg}" }
+    def info = { String msg -> println "RBOT(${projectId}/${modelId}): ${msg}" }
     def debug = { String msg ->
         if (env.DEBUG == 'true' || env.debug == 'true') {
-            log msg
+            info msg
         }
     }
     def isCollectionOrArray = { object ->
@@ -20,7 +20,7 @@ def call(projectId, modelId,
     def replacePatternWithMap = { map ->
         pattern.replaceAll(/\{(\w+)\}/) { match, key -> map[key] ?: env[key] }
     }
-    log "requesting regression tests..."
+    info "requesting regression tests..."
 
     def tests = new RBotClient(debug, host, token).getRecommendedTest(projectId,modelId)
     if (tests == null || !isCollectionOrArray(tests)) {
@@ -29,7 +29,7 @@ def call(projectId, modelId,
     if (!(test as List)[0]) {
         error "no regression tests returned"
     }
-    debug tests
+    info tests
     if (pattern != null) {
         tests = tests.collect { replacePatternWithMap(it) }.join(sep)
         debug tests

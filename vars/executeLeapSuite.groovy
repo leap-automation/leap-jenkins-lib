@@ -7,10 +7,10 @@ def call(suite, project,
         def msg = res == null ? null : res.message ?: res
         return msg != null ? "\nMSG: ${msg}" : ''
     }
-    def log = { String msg -> println "(${project}/${suite}): ${msg}" }
+    def info = { String msg -> println "(${project}/${suite}): ${msg}" }
     def debug = { String msg ->
         if (env.DEBUG == 'true' || env.debug == 'true') {
-            log msg
+            info msg
         }
     }
     def setPassed = { value ->
@@ -19,12 +19,11 @@ def call(suite, project,
     }
 
     setPassed 0
-    log "starting execution..."
+    info "starting execution..."
 
     def executionApi = new LEAPClient(debug, host, token)
-    log executionApi
     def exec = executionApi.runSuite(suite, project)
-    log exec
+    info exec
     def status, completed = false, retry = 5
     if (exec != null && exec['suiteId'] != null) {
         while (!completed) {
@@ -32,7 +31,7 @@ def call(suite, project,
             status = executionApi.getExecutionStatus(exec.id)
             if (status && status.jobs) {
                 completed = status.finishedPercentage == 100
-                log "completion(${completed}) - ${status.finishedPercentage}%"
+                info "completion(${completed}) - ${status.finishedPercentage}%"
             } else {
                 completed = --retry == 0
             }
