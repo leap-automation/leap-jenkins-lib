@@ -7,7 +7,7 @@ import java.util.function.Consumer
 
 class HttpClient {
     private String token
-    private Consumer<GString> log
+    private def log
 
     HttpClient(log, token) {
         this.token = token
