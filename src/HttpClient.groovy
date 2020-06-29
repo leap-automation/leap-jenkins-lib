@@ -14,7 +14,7 @@ class HttpClient {
     }
 
     @SuppressWarnings("GroovyAssignabilityCheck")
-    get(String url) {
+    doGet(String url) {
         try {
             log "requesting -\nGET ${url}"
             def res = new HttpRequest().get(url)
@@ -27,7 +27,7 @@ class HttpClient {
     }
 
     @SuppressWarnings("GroovyAssignabilityCheck")
-    post(String url, String data = "") {
+    doPost(String url, String data = "") {
         try {
             log "requesting -\nPOST ${url}"
             def res = new HttpRequest().post(url)

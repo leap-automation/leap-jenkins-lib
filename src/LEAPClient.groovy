@@ -16,10 +16,10 @@ class LEAPClient extends  HttpClient{
     }
 
     def runSuite(String suite, String project) {
-        return super.post(getRunSuiteUrl(project, suite))
+        return super.doPost(getRunSuiteUrl(project, suite))
     }
 
     def getExecutionStatus(String id) {
-        return super.get(getExecutionStatusUrl(id))
+        return super.doGet(getExecutionStatusUrl(id))
     }
 }
