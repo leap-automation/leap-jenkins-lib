@@ -26,8 +26,8 @@ class RBotClient extends HttpClient {
         list.collect { map ->
             log map
             pattern.replaceAll(/\{(\w+)\}/) { match, key ->
-                log match+" :"+key+" :"+ map[key]
-                map[key]
+                log match[1]+" :"+key?:match[1]+" :"+ map[key?:match[1]]
+                map[key?:match[1]]
             }
         }.join(sep)
     }
