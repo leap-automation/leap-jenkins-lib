@@ -22,7 +22,9 @@ def call(suite, project,
     log "starting execution..."
 
     def executionApi = new LEAPClient(debug, host, token)
+    log executionApi
     def exec = executionApi.runSuite(suite, project)
+    log exec
     def status, completed = false, retry = 5
     if (exec != null && exec['id'] != null) {
         while (!completed) {
