@@ -14,10 +14,14 @@ class RBotClient extends HttpClient {
     def getRecommendedTest(projectId, modelId) {
         return super.doGet(getRecommendedTestsUrl(projectId, modelId))
     }
-    def isEmpty(list){
+
+    static def isEmpty(list){
+        log "checking is empty"
         return list == []
     }
-    def resolvePattern(pattern , list , sep = ' '){
+
+    static def resolvePattern(pattern, list, sep = ' '){
+        log "resolving pattern: "+pattern
         def replacePatternWithMap = { map ->
             pattern.replaceAll(/\{(\w+)\}/) { match, key -> map[key] }
         }
