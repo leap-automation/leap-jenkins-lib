@@ -21,14 +21,6 @@ class RBotClient extends HttpClient {
     }
 
     def resolvePattern(pattern, list, sep = ' ') {
-        log pattern
-        log list
-        list.collect { map ->
-            log map
-            pattern.replaceAll(/\{(\w+)\}/) { match, key ->
-                log match[1]+" :"+key?:match[1]+" :"+ map[key?:match[1]]
-                map[key?:match[1]]
-            }
-        }.join(sep)
+        list.collect { map -> pattern.replaceAll(/\{(\w+)\}/) { match, key -> map[key ?: match[1]] } }.join(sep)
     }
 }
