@@ -3,11 +3,10 @@ import groovy.json.JsonSlurperClassic
 @Grab("org.jodd:jodd-http:5.1.4")
 import jodd.http.HttpRequest
 
-import java.util.function.Consumer
 
 class HttpClient {
     private String token
-    private def log
+    def log
 
     HttpClient(log, token) {
         this.token = token
