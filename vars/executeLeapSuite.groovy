@@ -26,8 +26,9 @@ def call(suite, project,
     def exec = executionApi.runSuite(suite, project)
     log exec
     def status, completed = false, retry = 5
-    if (exec != null && exec['id'] != null) {
+    if (exec != null && exec['suiteId'] != null) {
         while (!completed) {
+            sleep 5
             status = executionApi.getExecutionStatus(exec.id)
             if (status && status.jobs) {
                 completed = status.finishedPercentage == 100
@@ -35,7 +36,6 @@ def call(suite, project,
             } else {
                 completed = --retry == 0
             }
-            sleep 5000
         }
     } else {
         error "unable to trigger suite - ${suite}" + parseError(exec)
