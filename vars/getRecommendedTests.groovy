@@ -2,7 +2,7 @@
 
 def call(projectId, modelId,
          host = env.RBOT_HOST, token = env.RBOT_TOKEN,
-         envName = 'RBOT_TESTS', pattern = '--tests {testCaseID}', sep = ' '
+         pattern = '--tests {testCaseID}', sep = ' ', envName = 'RBOT_TESTS'
 ) {
     def parseError = { res ->
         def msg = res == null ? null : res.message ?: res
@@ -15,23 +15,26 @@ def call(projectId, modelId,
         }
     }
     def isCollectionOrArray = { object ->
-       return  [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
+        return [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
     }
-    def replacePatternWithMap = {  map ->
-        pattern.replaceAll(/\{(\w+)\}/){ match , key -> map[key] ?:env[key]}
+    def replacePatternWithMap = { map ->
+        pattern.replaceAll(/\{(\w+)\}/) { match, key -> map[key] ?: env[key] }
     }
     log "requesting regression tests..."
 
-    def tests = new RBotClient(debug, host, token)
-    if (tests == null || !isCollectionOrArray(tests)){
+    def tests = new RBotClient(debug, host, token).getRecommendedTest(projectId,modelId)
+    if (tests == null || !isCollectionOrArray(tests)) {
         error "unable get regression tests" + parseError(tests)
     }
-    if (!(test as List)[0]){
+    if (!(test as List)[0]) {
         error "no regression tests returned"
     }
     debug tests
-    tests = tests.collect { replacePatternWithMap(it) }.join(sep)
-    debug tests
-    env[envName] = tests
+    if (pattern != null) {
+        tests = tests.collect { replacePatternWithMap(it) }.join(sep)
+        debug tests
+        if (envName != null)
+            env[envName] = tests
+    }
     return tests
 }

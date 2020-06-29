@@ -7,11 +7,11 @@ class RBotClient extends HttpClient {
         this.host = host
     }
 
-    private getRecommendedTestsUrl(projectId, modelId) {
+    private getRecommendedTestsUrl(String projectId , String modelId) {
         return "${host}/systemRecommendedTcs?projectid=${projectId}&modelid=${modelId}"
     }
 
-    def getRecommendedTest(String id) {
+    def getRecommendedTest(projectId, modelId) {
         return get(getRecommendedTestsUrl(projectId, modelId))
     }
 }
