@@ -13,10 +13,6 @@ class HttpClient {
         this.log = log
     }
 
-    static def httpClient() {
-        return new HttpRequest()
-    }
-
     @SuppressWarnings("GroovyAssignabilityCheck")
     get(String url) {
         try {
