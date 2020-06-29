@@ -5,7 +5,7 @@ def call(projectId, modelId,
          envName = 'RBOT_TESTS', pattern = '--tests {testCaseID}', sep = ' '
 ) {
     def parseError = { res ->
-        def msg = res == null ? null : (res.message != null ? res.message : res)
+        def msg = res == null ? null : res.message ?: res
         return msg != null ? "\nMSG: ${msg}" : ''
     }
     def log = { String msg -> println "RBOT(${projectId}/${modelId}): ${msg}" }

@@ -4,7 +4,7 @@ def call(suite, project,
          host = env.LEAP_HOST, token = env.LEAP_TOKEN,
          passPercentVar = 'PASSED_PERCENTAGE', resultsSourceFile = 'results.properties') {
     def parseError = { res ->
-        def msg = res == null ? null : (res.message != null ? res.message : res)
+        def msg = res == null ? null : res.message ?: res
         return msg != null ? "\nMSG: ${msg}" : ''
     }
     def log = { String msg -> println "(${project}/${suite}): ${msg}" }
