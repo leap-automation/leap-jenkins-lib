@@ -17,21 +17,20 @@ def call(projectId, modelId,
     def isCollectionOrArray = { object ->
         return [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
     }
-    def replacePatternWithMap = { map ->
-        pattern.replaceAll(/\{(\w+)\}/) { match, key -> map[key] ?: env[key] }
-    }
+
     info "requesting regression tests..."
 
-    def tests = new RBotClient(debug, host, token).getRecommendedTest(projectId,modelId)
+    def client = new RBotClient(debug, host, token);
+    def tests = client.getRecommendedTest(projectId,modelId)
 
     if (tests == null || !isCollectionOrArray(tests)) {
         error "unable get regression tests" + parseError(tests)
     }
-//    if (tests == []) {
-//        error "no regression tests returned"
-//    }
-    if (pattern != null) {
-        tests = tests.collect { replacePatternWithMap(it) }.join(sep)
+    if (client.isEmpty(tests)) {
+        error "no regression tests returned"
+    }
+        if (pattern != null) {
+        tests = client.resolvePattern(pattern , tests)
         debug tests
         if (envName != null)
             env[envName] = tests
