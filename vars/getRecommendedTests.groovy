@@ -27,10 +27,9 @@ def call(projectId, modelId,
     if (tests == null || !isCollectionOrArray(tests)) {
         error "unable get regression tests" + parseError(tests)
     }
-    if (!(tests as List)[0]) {
+    if (tests == []) {
         error "no regression tests returned"
     }
-    info tests
     if (pattern != null) {
         tests = tests.collect { replacePatternWithMap(it) }.join(sep)
         debug tests
