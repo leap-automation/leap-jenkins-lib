@@ -28,7 +28,7 @@ def call(suite, project,
         while (!completed) {
             status = executionApi.getExecutionStatus(exec.id)
             if (status && status.jobs) {
-                completed = status.finishedPercentage == 100 && status.passPercentage != null
+                completed = status.finishedPercentage == 100
                 log "completion(${completed}) - ${status.finishedPercentage}%"
             } else {
                 completed = --retry == 0
@@ -42,7 +42,7 @@ def call(suite, project,
         error "unable to read status for execution - ${exe.name}" + parseError(status)
     } else {
         log "pass percentage - ${status.passPercentage}%"
-        setPassed status.passPercentage
+        setPassed status.passPercentage ?: 0
     }
     return status
 }
