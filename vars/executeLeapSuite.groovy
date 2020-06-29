@@ -35,7 +35,7 @@ def call(suite, project,
             } else {
                 completed = --retry == 0
             }
-            sleep 5
+            sleep 5000
         }
     } else {
         error "unable to trigger suite - ${suite}" + parseError(exec)

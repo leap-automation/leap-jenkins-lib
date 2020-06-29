@@ -18,15 +18,15 @@ class HttpClient {
     }
 
     @SuppressWarnings("GroovyAssignabilityCheck")
-    Object get(String url) {
+    get(String url) {
         try {
-            this.log "requesting -\nGET ${url}"
+            log "requesting -\nGET ${url}"
             def req = httpClient().post(url)
             if (token != null) {
                 req = req.tokenAuthentication(token)
             }
             def res = req.acceptJson().acceptJson().send().bodyText()
-            this.log "response -\n${res}"
+            log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
             return e
@@ -34,15 +34,15 @@ class HttpClient {
     }
 
     @SuppressWarnings("GroovyAssignabilityCheck")
-    Object post(String url, String data = "") {
+    post(String url, String data = "") {
         try {
-            this.log "requesting -\nPOST ${url}"
+            log "requesting -\nPOST ${url}"
             def req = httpClient().post(url)
             if (token != null) {
                 req = req.tokenAuthentication(token)
             }
             def res = req.acceptJson().contentTypeJson().body(data).send().bodyText()
-            this.log "response -\n${res}"
+            log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
             return e
