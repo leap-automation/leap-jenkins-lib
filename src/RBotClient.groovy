@@ -3,7 +3,7 @@ class RBotClient extends HttpClient {
     private String host;
 
     RBotClient(log, host, token) {
-        super(log,host)
+        super(log,token)
         this.host = host
     }
 
