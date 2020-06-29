@@ -20,8 +20,8 @@ def call(projectId, modelId,
 
     info "requesting regression tests..."
 
-    def client = new RBotClient(debug, host, token);
-    def tests = client.getRecommendedTest(projectId,modelId)
+    def client = new RBotClient(debug, host, token)
+    def tests = client.getRecommendedTest(projectId, modelId)
 
     if (tests == null || !isCollectionOrArray(tests)) {
         error "unable get regression tests" + parseError(tests)
@@ -29,8 +29,8 @@ def call(projectId, modelId,
     if (client.isEmpty(tests)) {
         error "no regression tests returned"
     }
-        if (pattern != null) {
-        tests = client.resolvePattern(pattern , tests)
+    if (pattern != null) {
+        tests = client.resolvePattern(pattern, tests)
         debug tests
         if (envName != null)
             env[envName] = tests
