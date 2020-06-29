@@ -24,7 +24,7 @@ def call(suite, project,
     def executionApi = new LEAPClient(debug, host, token)
     def exec = executionApi.runSuite(suite, project)
     def status, completed = false, retry = 5
-    if (exec && exec.id) {
+    if (exec != null && exec.id != null) {
         while (!completed) {
             status = executionApi.getExecutionStatus(exec.id)
             if (status && status.jobs) {
