@@ -27,7 +27,7 @@ def call(suite, project,
     def status, completed = false, retry = 5
     if (exec != null && exec['suiteId'] != null) {
         while (!completed) {
-            sleep 5000
+            sleep 5
             status = executionApi.getExecutionStatus(exec.id)
             if (status && status.jobs) {
                 completed = status.finishedPercentage == 100
