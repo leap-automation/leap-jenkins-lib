@@ -18,11 +18,7 @@ def call(projectId, modelId,
        return  [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
     }
     def replacePatternWithMap = {  map ->
-        def res = pattern +''
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            res = res.replace("{" + entry.getKey() + "}", entry.getValue())
-        }
-        return res
+        pattern.replaceAll(/\{(\w+)\}/){ match , key -> map[key] ?:env[key]}
     }
     log "requesting regression tests..."
 
@@ -33,7 +29,9 @@ def call(projectId, modelId,
     if (!(test as List)[0]){
         error "no regression tests returned"
     }
+    debug tests
     tests = tests.collect { replacePatternWithMap(it) }.join(sep)
+    debug tests
     env[envName] = tests
     return tests
 }
