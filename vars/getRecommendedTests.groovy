@@ -30,7 +30,7 @@ def call(projectId, modelId,
         error "no regression tests returned"
     }
     if (pattern != null) {
-        tests = client.resolvePattern(pattern, tests)
+        tests = client.resolvePattern(pattern, tests , sep)
         debug tests
         if (envName != null)
             env[envName] = tests

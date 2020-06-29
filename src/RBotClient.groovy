@@ -17,7 +17,7 @@ class RBotClient extends HttpClient {
     def isEmpty(list){
         return list == []
     }
-    def resolvePattern(pattern , list){
+    def resolvePattern(pattern , list , sep = ' '){
         def replacePatternWithMap = { map ->
             pattern.replaceAll(/\{(\w+)\}/) { match, key -> map[key] }
         }
