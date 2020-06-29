@@ -21,11 +21,12 @@ class HttpClient {
     get(String url) {
         try {
             log "requesting -\nGET ${url}"
-            def req = httpClient().post(url)
+            def res;
             if (token != null) {
-                req = req.tokenAuthentication(token)
+               res =   new HttpRequest().get(url).tokenAuthentication(token).acceptJson().acceptJson().send().bodyText()
+            }else{
+                res =   new HttpRequest().get(url).acceptJson().acceptJson().send().bodyText()
             }
-            def res = req.acceptJson().acceptJson().send().bodyText()
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
@@ -37,11 +38,12 @@ class HttpClient {
     post(String url, String data = "") {
         try {
             log "requesting -\nPOST ${url}"
-            def req = httpClient().post(url)
+            def res ;
             if (token != null) {
-                req = req.tokenAuthentication(token)
+                res = new HttpRequest().post(url).tokenAuthentication(token).acceptJson().contentTypeJson().body(data).send().bodyText()
+            }else{
+                res = new HttpRequest().post(url).acceptJson().contentTypeJson().body(data).send().bodyText()
             }
-            def res = req.acceptJson().contentTypeJson().body(data).send().bodyText()
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)
         } catch (Exception e) {
