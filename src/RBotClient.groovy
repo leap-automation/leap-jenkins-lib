@@ -12,6 +12,6 @@ class RBotClient extends HttpClient {
     }
 
     def getRecommendedTest(projectId, modelId) {
-        return get(getRecommendedTestsUrl(projectId, modelId))
+        return super.get(getRecommendedTestsUrl(projectId, modelId))
     }
 }
