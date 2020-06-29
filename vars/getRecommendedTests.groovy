@@ -23,11 +23,11 @@ def call(projectId, modelId,
     info "requesting regression tests..."
 
     def tests = new RBotClient(debug, host, token).getRecommendedTest(projectId,modelId)
-    info tests
+
     if (tests == null || !isCollectionOrArray(tests)) {
         error "unable get regression tests" + parseError(tests)
     }
-    if (!(test as List)[0]) {
+    if (!(tests as List)[0]) {
         error "no regression tests returned"
     }
     info tests
