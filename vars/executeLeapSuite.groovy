@@ -42,7 +42,7 @@ def call(suite, project,
     if (status == null || !status.jobs) {
         error "unable to read status for execution - ${exe.name}" + parseError(status)
     } else {
-        log "pass percentage - ${status.passPercentage}%"
+        info "pass percentage - ${status.passPercentage}%"
         setPassed status.passPercentage ?: 0
     }
     return status
