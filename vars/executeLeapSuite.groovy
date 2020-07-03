@@ -14,6 +14,7 @@ def call(suite, project,
         }
     }
     def setPassed = { value ->
+        value  = (int) Float.valueOf(value)
         env[passPercentVar] = value
         writeFile file: resultsSourceFile, text: "${passPercentVar}=${value}"
     }
