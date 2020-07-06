@@ -1,9 +1,10 @@
 #!/usr/bin/groovy
-class LEAPClient extends  HttpClient{
+
+class LEAPClient extends HttpClient {
     private String exec_api
 
     LEAPClient(log, host, token) {
-        super(log,token)
+        super(log, token)
         this.exec_api = host.endsWith('execution') ? host : host + '/execution'
     }
 
@@ -11,8 +12,35 @@ class LEAPClient extends  HttpClient{
         return "${exec_api}/suites/execute?name=${suite}&projectName=${project}"
     }
 
+    private suiteUrl() {
+        return "${exec_api}/suites"
+    }
+
     private getExecutionStatusUrl(id) {
         return "${exec_api}/executions/${id}/suite-report"
+    }
+
+    private getSearchSuitesUrl(project) {
+        return "${exec_api}/suites/search?projectName=${project}"
+    }
+
+    def findSuite(suite, project) {
+        def suites = super.get(getSearchSuitesUrl(project))
+        return suites != null ? suites.find { (it.name == suite) } : suites
+    }
+
+    def updateSuiteTests(tests, suiteName, project) {
+        def suite = findSuite(suiteName, project)
+        if (suite != null) {
+            tests = tests.split(",")
+            log "test to update ${tests}"
+            suite.task.tasks = tests.collect { test ->
+                [name: test, type: 'test']
+            }
+            log "updating suite {suite}"
+            return super.doPut(suiteUrl() , suite)
+        }
+        throw new Error("unable to find suite ${project}/${suiteName}")
     }
 
     def runSuite(String suite, String project) {
