@@ -28,6 +28,7 @@ def call(tests , suite, project,
     debug exec
     def status, completed = false, retry = 5
     if (exec != null && exec['suiteId'] != null) {
+        info "[leap.execution.id=${exec.id}]"
         while (!completed) {
             sleep 5
             status = executionApi.getExecutionStatus(exec.id)
@@ -44,7 +45,7 @@ def call(tests , suite, project,
     if (status == null || !status.jobs) {
         error "unable to read status for execution - ${exe.name}" + parseError(status)
     } else {
-        info "pass percentage - ${status.passPercentage}%"
+        info "pass percentage - ${status.passPercentage?:'n/a'}%"
         setPassed status.passPercentage ?: 0
     }
     return status

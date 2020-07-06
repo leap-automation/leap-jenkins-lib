@@ -45,7 +45,7 @@ class HttpClient {
     @SuppressWarnings("GroovyAssignabilityCheck")
     doPut(String url, def data = null) {
         try {
-            log "requesting -\nPOST ${url}"
+            log "requesting -\nPUT ${url}"
             def res = new HttpRequest().put(url)
                     .tokenAuthentication(token).acceptJson().contentTypeJson()
                     .body(JsonOutput.toJson(data))
