@@ -25,7 +25,7 @@ class LEAPClient extends HttpClient {
     }
 
     def findSuite(suite, project) {
-        def suites = super.get(getSearchSuitesUrl(project))
+        def suites = super.doGet(getSearchSuitesUrl(project))
         return suites != null ? suites.find { (it.name == suite) } : suites
     }
 
