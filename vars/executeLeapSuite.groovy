@@ -44,8 +44,14 @@ def call(suite, project,
     if (status == null || !status.jobs) {
         error "unable to read status for execution - ${exe.name}" + parseError(status)
     } else {
-        info "pass percentage - ${status.passPercentage?:'n/a'}%"
+        info "pass percentage - ${status.passPercentage?status.passPercentage+'%':'n/a'}"
         setPassed status.passPercentage ?: 0
+        def execution = executionApi.getExecution(exec.id);
+        if(execution !=null && exec['suiteId'] != null){
+            info "[leap.execution.id=${execution.id}]"
+            info "[leap.execution.reportId=${execution.reportId}]"
+            info "[leap.execution.reportProjectId=${execution.reportProjectId}]"
+        }
     }
     return status
 }

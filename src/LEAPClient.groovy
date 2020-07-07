@@ -17,11 +17,14 @@ class LEAPClient extends HttpClient {
     }
 
     private getExecutionStatusUrl(id) {
-        return "${exec_api}/executions/${id}/suite-report"
+        return getExecutionUrl(id) + "/suite-report"
     }
 
     private getSearchSuitesUrl(project) {
         return "${exec_api}/suites/search?projectName=${project}"
+    }
+    private getExecutionUrl(id){
+        return "${exec_api}/executions/${id}"
     }
 
     def findSuite(suite, project) {
@@ -49,5 +52,8 @@ class LEAPClient extends HttpClient {
 
     def getExecutionStatus(String id) {
         return super.doGet(getExecutionStatusUrl(id))
+    }
+    def getExecution(String id){
+        return super.doGet(getExecutionUrl(id))
     }
 }
