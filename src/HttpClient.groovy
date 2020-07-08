@@ -1,8 +1,8 @@
 #!/usr/bin/groovy
+import groovy.json.JsonOutput
 import groovy.json.JsonSlurperClassic
 @Grab("org.jodd:jodd-http:5.1.4")
 import jodd.http.HttpRequest
-
 
 class HttpClient {
     def token
@@ -27,11 +27,29 @@ class HttpClient {
     }
 
     @SuppressWarnings("GroovyAssignabilityCheck")
-    doPost(String url, String data = "") {
+    doPost(String url, String data = null) {
         try {
             log "requesting -\nPOST ${url}"
             def res = new HttpRequest().post(url)
-                    .tokenAuthentication(token).acceptJson().contentTypeJson().body(data).send().bodyText()
+                    .tokenAuthentication(token).acceptJson().contentTypeJson().body(
+                    data == null ? "" : JsonOutput.toJson(data)
+            ).send().bodyText()
+
+            log "response -\n${res}"
+            return new JsonSlurperClassic().parseText(res)
+        } catch (Exception e) {
+            return e
+        }
+    }
+
+    @SuppressWarnings("GroovyAssignabilityCheck")
+    doPut(String url, def data = null) {
+        try {
+            log "requesting -\nPUT ${url}"
+            def res = new HttpRequest().put(url)
+                    .tokenAuthentication(token).acceptJson().contentTypeJson()
+                    .body(JsonOutput.toJson(data))
+                    .send().bodyText()
 
             log "response -\n${res}"
             return new JsonSlurperClassic().parseText(res)

@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(suite, project,
+def call(tests , suite, project,
          host = env.LEAP_HOST, token = env.LEAP_TOKEN,
          passPercentVar = 'PASSED_PERCENTAGE', resultsSourceFile = 'results.properties') {
     def parseError = { res ->
@@ -23,6 +23,7 @@ def call(suite, project,
     info "starting execution..."
 
     def executionApi = new LEAPClient(debug, host, token)
+    executionApi.updateSuiteTests(tests , suite , project)
     def exec = executionApi.runSuite(suite, project)
     debug exec
     def status, completed = false, retry = 5
