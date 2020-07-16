@@ -32,7 +32,7 @@ def call(suite, project,
             sleep 5
             status = executionApi.getExecutionStatus(exec.id)
             if (status && status.jobs) {
-                completed = status.finishedPercentage == 100
+                completed = status.completed
                 info "completion(${completed}) - ${status.finishedPercentage}%"
             } else {
                 completed = --retry == 0
@@ -46,7 +46,6 @@ def call(suite, project,
     } else {
         info "pass percentage - ${status.passPercentage?status.passPercentage+'%':'n/a'}"
         setPassed status.passPercentage ?: 0
-        sleep 15
         def execution = executionApi.getExecution(exec.id);
         if(execution !=null && exec['suiteId'] != null){
             info "[leap.execution.id=${execution.id}]"
