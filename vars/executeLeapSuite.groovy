@@ -46,6 +46,7 @@ def call(suite, project,
     } else {
         info "pass percentage - ${status.passPercentage?status.passPercentage+'%':'n/a'}"
         setPassed status.passPercentage ?: 0
+        sleep 15
         def execution = executionApi.getExecution(exec.id);
         if(execution !=null && exec['suiteId'] != null){
             info "[leap.execution.id=${execution.id}]"
