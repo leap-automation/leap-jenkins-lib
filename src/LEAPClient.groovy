@@ -9,6 +9,7 @@ class LEAPClient extends HttpClient {
     }
 
     private getRunSuiteUrl(project, suite) {
+        info "custom mesg ${exec_api}/suites/execute?name=${suite}&projectName=${project}"
         return "${exec_api}/suites/execute?name=${suite}&projectName=${project}"
     }
 
