@@ -23,8 +23,10 @@ def call(suite, project,
     info "starting execution..."
 
     def executionApi = new LEAPClient(debug, host, token)
+    info "custom mesg :  $executionApi"      
     def exec = executionApi.runSuite(suite, project)
-    debug exec  
+    debug exec 
+    info "custom mesg :  $exec"      
     info "custom mesg :  $exec['suiteId'] " 
     def status, completed = false, retry = 5
     if (exec != null && exec['suiteId'] != null) {
