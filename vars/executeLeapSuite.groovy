@@ -25,6 +25,7 @@ def call(suite, project,
     def executionApi = new LEAPClient(debug, host, token)
     def exec = executionApi.runSuite(suite, project)
     debug exec  
+    info "custom mesg :  $exec['suiteId'] " 
     def status, completed = false, retry = 5
     if (exec != null && exec['suiteId'] != null) {
         info "[leap.execution.id=${exec.id}]"
