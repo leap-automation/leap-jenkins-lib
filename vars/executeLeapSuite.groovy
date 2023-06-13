@@ -52,8 +52,9 @@ def call(suite, project,
         def execution = executionApi.getExecution(exec.id);
         if(execution !=null && exec['suiteId'] != null){
             println(execution.id)
-            env.id = execution.id
-            println(env.id)
+            executionId = execution.id
+            env.id = executionId
+            println(executionId)
             info "[leap.execution.id=${execution.id}]"
             info "[leap.execution.reportId=${execution.reportId}]"
             info "[leap.execution.reportProjectId=${execution.reportProjectId}]"
