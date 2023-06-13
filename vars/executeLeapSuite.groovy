@@ -1,5 +1,4 @@
 #!/usr/bin/env groovy
-String id ;
 def call(suite, project,
          host = env.LEAP_HOST, token = env.LEAP_TOKEN,
          passPercentVar = 'PASSED_PERCENTAGE', resultsSourceFile = 'results.properties') {
