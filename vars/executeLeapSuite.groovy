@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 def call(suite, project,
-         host = env.LEAP_HOST, token = env.LEAP_TOKEN, executionId = env.id,
+         host = env.LEAP_HOST, token = env.LEAP_TOKEN,
          passPercentVar = 'PASSED_PERCENTAGE', resultsSourceFile = 'results.properties') {
     def parseError = { res ->
         def msg = res == null ? null : res.message ?: res
@@ -52,16 +52,12 @@ def call(suite, project,
         def execution = executionApi.getExecution(exec.id);
         if(execution !=null && exec['suiteId'] != null){
             println(execution.id)
-            executionId = execution.id
-            env.id = executionId
-            println(executionId)
             id = execution.id
             info "[leap.execution.id=${execution.id}]"
             info "[leap.execution.reportId=${execution.reportId}]"
             info "[leap.execution.reportProjectId=${execution.reportProjectId}]"
         }
     }
-    println(env.id)
     println(id)
     return status
 }
