@@ -59,5 +59,5 @@ def call(suite, project,
         }
     }
     println(id)
-    return status
+    return id
 }
