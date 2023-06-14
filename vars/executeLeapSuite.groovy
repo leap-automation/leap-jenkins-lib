@@ -55,11 +55,13 @@ def call(suite, project,
             executionId = execution.id
             env.id = executionId
             println(executionId)
+            id = execution.id
             info "[leap.execution.id=${execution.id}]"
             info "[leap.execution.reportId=${execution.reportId}]"
             info "[leap.execution.reportProjectId=${execution.reportProjectId}]"
         }
     }
     println(env.id)
+    println(id)
     return status
 }
