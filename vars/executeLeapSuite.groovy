@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-
+String id;
 def call(suite, project,
          host = env.LEAP_HOST, token = env.LEAP_TOKEN,
          passPercentVar = 'PASSED_PERCENTAGE', resultsSourceFile = 'results.properties') {
@@ -52,10 +52,12 @@ def call(suite, project,
         sleep 15
         def execution = executionApi.getExecution(exec.id);
         if(execution !=null && exec['suiteId'] != null){
+            id = execution.id
             info "[leap.execution.id=${execution.id}]"
             info "[leap.execution.reportId=${execution.reportId}]"
             info "[leap.execution.reportProjectId=${execution.reportProjectId}]"
         }
     }
-    return status
+    println(id)
+    return id
 }
