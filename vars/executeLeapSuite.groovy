@@ -1,7 +1,9 @@
 #!/usr/bin/env groovy
+String id;
 def call(suite, project,
          host = env.LEAP_HOST, token = env.LEAP_TOKEN,
          passPercentVar = 'PASSED_PERCENTAGE', resultsSourceFile = 'results.properties') {
+    println("************************************************************************")
     def parseError = { res ->
         def msg = res == null ? null : res.message ?: res
         return msg != null ? "\nMSG: ${msg}" : ''
@@ -58,6 +60,5 @@ def call(suite, project,
             info "[leap.execution.reportProjectId=${execution.reportProjectId}]"
         }
     }
-    println(id)
     return id
 }
